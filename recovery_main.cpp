@@ -78,7 +78,7 @@ static bool IsDeviceUnlocked() {
 }
 
 std::string get_build_type() {
-  return android::base::GetProperty("ro.build.type", "");
+  return android::base::GetProperty("ro.system.build.type", "");
 }
 
 static constexpr const char* adb_keys_data = "/data/misc/adb/adb_keys";
