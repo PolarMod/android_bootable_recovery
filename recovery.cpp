@@ -887,8 +887,7 @@ Device::BuiltinAction start_recovery(Device* device, const std::vector<std::stri
 
   std::vector<std::string> title_lines = {
     "Version " + android::base::GetProperty("ro.lineage.build.version", "(unknown)") +
-        " (" + android::base::GetProperty("ro.vendor.build.version.incremental", "<unknown>") + "-" +
-        android::base::GetProperty("ro.system.build.type", "")+
+        " (" + android::base::GetProperty("ro.vendor.build.version.incremental", "<unknown>") +
         ")",
   };
   if (android::base::GetBoolProperty("ro.build.ab_update", false)) {
