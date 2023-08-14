@@ -229,6 +229,12 @@ static bool is_device_locked(){
     return get_bootloader_state(cmdline, "orange") != "orange";
 }
 
+bool ask_to_ab_reboot(Device* device) {
+  device->GetUI()->SetProgressType(RecoveryUI::EMPTY);
+  return yes_no(device, "To install additional packages, you need to reboot recovery first",
+                "Do you want to reboot to recovery now?");
+}
+
 bool ask_to_continue_unverified(Device* device) {
   if (get_build_type() == "user") {
     device->GetUI()->Print("Signature verifcation failed! Can not flash over user build.");
