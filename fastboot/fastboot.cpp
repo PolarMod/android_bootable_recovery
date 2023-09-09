@@ -29,6 +29,7 @@
 #include <bootloader_message/bootloader_message.h>
 
 #include "recovery_ui/ui.h"
+#include "recovery.h"
 
 static const std::vector<std::pair<std::string, Device::BuiltinAction>> kFastbootMenuActions{
   { "Reboot system now", Device::REBOOT_FROM_FASTBOOT },
@@ -36,6 +37,12 @@ static const std::vector<std::pair<std::string, Device::BuiltinAction>> kFastboo
   { "Reboot to bootloader", Device::REBOOT_BOOTLOADER },
   { "Power off", Device::SHUTDOWN_FROM_FASTBOOT },
 };
+
+void FailFastbootd(Device* device){
+  RecoveryUI* ui = device->GetUI();
+  ui->Print("fastbootd is not available.");
+  ui->Print("Hold power button to reboot the device.");
+}
 
 Device::BuiltinAction StartFastboot(Device* device, const std::vector<std::string>& /* args */) {
   RecoveryUI* ui = device->GetUI();
@@ -62,6 +69,10 @@ Device::BuiltinAction StartFastboot(Device* device, const std::vector<std::strin
   ui->ResetKeyInterruptStatus();
   ui->SetTitle(title_lines);
   ui->ShowText(true);
+  if(is_device_locked()){
+    FailFastbootd(device);
+    return Device::ENTER_RECOVERY;
+  }
   device->StartFastboot();
 
   // Reset to normal system boot so recovery won't cycle indefinitely.

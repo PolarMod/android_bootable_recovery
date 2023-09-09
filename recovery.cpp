@@ -217,7 +217,7 @@ static std::string get_bootloader_state(const std::string& cmdline, const std::s
         return _default;
 }
 
-static bool is_device_locked(){
+bool is_device_locked(void){
     std::string cmdline;
     if(!android::base::ReadFileToString("/proc/cmdline", &cmdline)){
         LOG(FATAL) << "Can not read /proc/cmdline\n";
